@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Roulette</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #video { width: 600px; height: 400px; background: black; }
+        #chat { width: 600px; height: 100px; }
+    </style>
+</head>
+<body>
+    <h1>Chat Roulette</h1>
+    <div id="video"></div>
+    <input id="chat" type="text" placeholder="Type your message here...">
+    <button id="send">Send</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const video = document.getElementById('video');
+        const chatInput = document.getElementById('chat');
+        const sendButton = document.getElementById('send');
+
+        // Add event listeners
+        sendButton.addEventListener('click', () => {
+            const message = chatInput.value;
+            socket.emit('message', message);
+            chatInput.value = '';
+        });
+
+        // Receive messages
+        socket.on('message', (message) => {
+            console.log('Message received:', message);
+        });
+    </script>
+</body>
+</html>
